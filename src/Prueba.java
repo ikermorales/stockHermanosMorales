@@ -1,6 +1,11 @@
+import GUI.PanelPlantaUno;
+import GUI.VentanaPrincipal;
 
 public class Prueba {
 	public static void main(String[] args) {
-		System.out.println("Hola mundo!");
+		
+		VentanaPrincipal ventanaMain = new VentanaPrincipal();
+		System.out.println(ventanaMain.getPanelContenido());
+		
 	}
 }
