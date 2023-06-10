@@ -107,6 +107,9 @@ public class PanelPlantaUno extends JPanel{
 		JButton btnFrio = new JButton("Frío");
 		btnFrio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				
 			}
 		});
 		btnFrio.setBackground(SystemColor.inactiveCaption);
@@ -114,4 +117,5 @@ public class PanelPlantaUno extends JPanel{
 		add(btnFrio);
 		
 	}
+	
 }

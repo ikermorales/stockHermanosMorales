@@ -1,9 +1,8 @@
 package GUI;
 
-import java.awt.EventQueue;
+import java.awt.EventQueue; 
 
 import javax.swing.JFrame;
-import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -16,8 +15,10 @@ import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
+import java.awt.GridLayout;
+import javax.swing.UIManager;
 
-public class SegundaPlanta {
+public class PanelLadoEstanteria {
 
 	private JFrame frame;
 
@@ -28,7 +29,7 @@ public class SegundaPlanta {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SegundaPlanta window = new SegundaPlanta();
+					PanelLadoEstanteria window = new PanelLadoEstanteria();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,7 +41,7 @@ public class SegundaPlanta {
 	/**
 	 * Create the application.
 	 */
-	public SegundaPlanta() {
+	public PanelLadoEstanteria() {
 		initialize();
 	}
 
@@ -78,7 +79,7 @@ public class SegundaPlanta {
 		btnPlantaDos.setFont(new Font("Microsoft New Tai Lue", Font.PLAIN, 12));
 		
 		JLabel logo = new JLabel("");
-		logo.setIcon(new ImageIcon("media/logo.png"));
+		logo.setIcon(new ImageIcon("C:\\Users\\Asus\\Documents\\GitHub\\stockHermanosMorales\\media\\logo.png"));
 		logo.setBounds(22, 22, 234, 88);
 		panel.add(logo);
 		
@@ -94,58 +95,12 @@ public class SegundaPlanta {
 		panel.add(panelContenido);
 		panelContenido.setLayout(null);
 		
-		JButton btnVariosCuatro = new JButton("Varios 4");
-		btnVariosCuatro.setBackground(SystemColor.inactiveCaption);
-		btnVariosCuatro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnVariosCuatro.setBounds(135, 27, 713, 68);
-		panelContenido.add(btnVariosCuatro);
-		
-		JButton btnBombillas = new JButton("Bombillas");
-		btnBombillas.setBackground(SystemColor.inactiveCaption);
-		btnBombillas.setBounds(32, 95, 100, 100);
-		panelContenido.add(btnBombillas);
-		
-		JButton btnCablesYElectricidad = new JButton("Electricidad 1");
-		btnCablesYElectricidad.setBackground(SystemColor.inactiveCaption);
-		btnCablesYElectricidad.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		btnCablesYElectricidad.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnCablesYElectricidad.setBounds(858, 106, 100, 214);
-		panelContenido.add(btnCablesYElectricidad);
-		
-		JButton btnNewButton = new JButton("Fluorescentes");
-		btnNewButton.setBackground(SystemColor.inactiveCaption);
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton.setBounds(32, 200, 100, 332);
-		panelContenido.add(btnNewButton);
-		
-		JButton btnMaquinaria = new JButton("Maquinaria");
-		btnMaquinaria.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnMaquinaria.setBackground(SystemColor.activeCaption);
-		btnMaquinaria.setBounds(401, 228, 175, 170);
-		panelContenido.add(btnMaquinaria);
-		
-		JButton btnCables = new JButton("Cables");
-		btnCables.setBounds(858, 27, 100, 68);
-		panelContenido.add(btnCables);
-		
-		JButton btnElectricidad = new JButton("Electricidad 2");
-		btnElectricidad.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		btnElectricidad.setBackground(SystemColor.inactiveCaption);
-		btnElectricidad.setBounds(858, 324, 100, 208);
-		panelContenido.add(btnElectricidad);
+		JPanel panelEstanteria = new JPanel();
+		panelEstanteria.setBackground(new Color(176, 224, 230));
+		panelEstanteria.setBorder(new LineBorder(UIManager.getColor("FormattedTextField.selectionBackground")));
+		panelEstanteria.setBounds(33, 33, 921, 477);
+		panelContenido.add(panelEstanteria);
+		panelEstanteria.setLayout(new GridLayout(1, 0, 0, 0));
 		btnPlantaDos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
