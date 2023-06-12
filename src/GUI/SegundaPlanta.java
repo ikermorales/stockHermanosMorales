@@ -133,11 +133,12 @@ public class SegundaPlanta {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnMaquinaria.setBackground(SystemColor.activeCaption);
+		btnMaquinaria.setBackground(SystemColor.inactiveCaptionBorder);
 		btnMaquinaria.setBounds(401, 228, 175, 170);
 		panelContenido.add(btnMaquinaria);
 		
 		JButton btnCables = new JButton("Cables");
+		btnCables.setBackground(SystemColor.inactiveCaption);
 		btnCables.setBounds(858, 27, 100, 68);
 		panelContenido.add(btnCables);
 		
