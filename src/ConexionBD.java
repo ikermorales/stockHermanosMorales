@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ConexionBD extends HttpServlet {
 
 	public static void main(String[] args) {
-		String serverIP = "50.62.223.194";
+		String serverIP = "50.62.223.194"; //IP DEL SERVER
 		String dbName = "MaquinariaHnosMorales";
 		String user = "usuarioStock";
 		String password = "usuarioStock";

@@ -1,6 +1,6 @@
 package GUI;
 
-import java.awt.EventQueue; 
+import java.awt.EventQueue;  
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,14 +8,10 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
-
-import BuisnessLogic.LadoEstanteria;
-
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
@@ -93,64 +89,9 @@ public class PrimeraPlanta {
 		JSeparator separator = new JSeparator();
 		separator.setBackground(new Color(50, 81, 152));
 		separator.setBounds(20, 121, 1090, 2);
-		panel.add(separator);
-		
-		
-		
-		
-		
-		
-		
-		JPanel panelContenido = new JPanel();
-		
-		
-		//Estanterías de esta ventana
-		LadoEstanteria variosDos = new LadoEstanteria(1,"Hornos",'D',3, new ArrayList<>());
-		variosDos.construirSecciones();
-		
-		LadoEstanteria fermentadorasIZQ = new LadoEstanteria(1,"Fermentadoras IZQ",'D',3, new ArrayList<>());
-		fermentadorasIZQ.construirSecciones();
-		
-		LadoEstanteria fermentadorasDCH = new LadoEstanteria(1,"Fermentadoras DCH",'D',3, new ArrayList<>());
-		fermentadorasDCH.construirSecciones();
-		
-		LadoEstanteria cobre = new LadoEstanteria(1,"Cobre",'D',11, new ArrayList<>());
-		cobre.construirSecciones();
-		
-		LadoEstanteria fontaneria = new LadoEstanteria(1,"Fontanería",'A',4, new ArrayList<>());
-		fontaneria.construirSecciones();
-		
-		LadoEstanteria resistencias = new LadoEstanteria(1,"Resistencias",'A',4, new ArrayList<>());
-		resistencias.construirSecciones();
-		
-		LadoEstanteria compresoresUno = new LadoEstanteria(1,"Compresores 1",'A',4, new ArrayList<>());
-		compresoresUno.construirSecciones();
-		
-		LadoEstanteria compresoresDos = new LadoEstanteria(1,"Compresores 2",'A',3, new ArrayList<>());
-		compresoresDos.construirSecciones();
-		
-		LadoEstanteria hornosDCH = new LadoEstanteria(1,"Hornos DCH",'D',3, new ArrayList<>());
-		hornosDCH.construirSecciones();
-		
-		LadoEstanteria hornosIZQ = new LadoEstanteria(1,"Hornos IZQ",'D',3, new ArrayList<>());
-		hornosIZQ.construirSecciones();
-		
-		LadoEstanteria variosDCH = new LadoEstanteria(1,"Varios 1 DCH",'D',3, new ArrayList<>());
-		variosDCH.construirSecciones();
-		
-		LadoEstanteria variosIZQ = new LadoEstanteria(1,"Varios 1 IZQ",'D',3, new ArrayList<>());
-		variosIZQ.construirSecciones();
-		
-		LadoEstanteria variosLateralArriba = new LadoEstanteria(1,"Varios 1 Lateral-1",'A',1, new ArrayList<>());
-		variosLateralArriba.construirSecciones();
-		
-		LadoEstanteria variosLateralAbajo = new LadoEstanteria(1,"Varios 1 Lateral-3",'A',1, new ArrayList<>());
-		variosLateralAbajo.construirSecciones();
-		
-		LadoEstanteria termopan = new LadoEstanteria(1,"Termopan",'3',1, new ArrayList<>());
-		termopan.construirSecciones();
-		
-		
+		panel.add(separator);	
+				
+		JPanel panelContenido = new JPanel();	
 		panelContenido.setBorder(null);
 		panelContenido.setBackground(new Color(239, 242, 250));
 		panelContenido.setBounds(121, 134, 989, 543);

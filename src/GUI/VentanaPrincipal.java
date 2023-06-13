@@ -22,7 +22,8 @@ public class VentanaPrincipal extends JFrame {
 	JButton btnPlantaUno;
 	JButton btnPlantaDos;
 	JPanel panelContenido;
-	PanelPlantaUno panelPlantaUno = new PanelPlantaUno();
+	PanelPlantaUno panelPlantaUno = new PanelPlantaUno(this);
+	PanelPlantaDos panelPlantaDos = new PanelPlantaDos();
 	
 	public VentanaPrincipal() {
 		
@@ -55,7 +56,7 @@ public class VentanaPrincipal extends JFrame {
 		btnPlantaDos.setFont(new Font("Microsoft New Tai Lue", Font.PLAIN, 12));
 		
 		JLabel logo = new JLabel("");
-		logo.setIcon(new ImageIcon("C:\\Users\\Asus\\Documents\\GitHub\\stockHermanosMorales\\media\\logo.png"));
+		logo.setIcon(new ImageIcon("media/logo.png"));
 		logo.setBounds(22, 22, 234, 88);
 		panel.add(logo);
 		
@@ -76,6 +77,7 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				btnPlantaUno.setEnabled(true);
 				btnPlantaDos.setEnabled(false);
+				setPanelContenido(panelPlantaDos);
 			}
 		});
 		btnPlantaUno.addActionListener(new ActionListener() {

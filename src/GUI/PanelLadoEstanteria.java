@@ -89,18 +89,7 @@ public class PanelLadoEstanteria {
 		panel.add(separator);
 		
 		JPanel panelContenido = new JPanel();
-		panelContenido.setBorder(null);
-		panelContenido.setBackground(new Color(239, 242, 250));
-		panelContenido.setBounds(121, 134, 989, 543);
-		panel.add(panelContenido);
-		panelContenido.setLayout(null);
 		
-		JPanel panelEstanteria = new JPanel();
-		panelEstanteria.setBackground(new Color(176, 224, 230));
-		panelEstanteria.setBorder(new LineBorder(UIManager.getColor("FormattedTextField.selectionBackground")));
-		panelEstanteria.setBounds(33, 33, 921, 477);
-		panelContenido.add(panelEstanteria);
-		panelEstanteria.setLayout(new GridLayout(1, 0, 0, 0));
 		btnPlantaDos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
