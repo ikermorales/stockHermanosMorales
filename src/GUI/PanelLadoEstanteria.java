@@ -89,6 +89,48 @@ public class PanelLadoEstanteria {
 		panel.add(separator);
 		
 		JPanel panelContenido = new JPanel();
+		panelContenido.setBorder(null);
+		panelContenido.setBackground(new Color(239, 242, 250));
+		panelContenido.setBounds(121, 134, 989, 543);
+		panelContenido.setLayout(null);
+		
+		JPanel panelEstanteria = new JPanel();
+		panelEstanteria.setBackground(new Color(176, 224, 230));
+		panelEstanteria.setBorder(new LineBorder(UIManager.getColor("FormattedTextField.selectionBackground")));
+		panelEstanteria.setBounds(33, 33, 921, 477);
+		panelContenido.add(panelEstanteria);
+		panelEstanteria.setLayout(null);
+		
+		JPanel panel_Superior = new JPanel();
+		panel_Superior.setBackground(Color.WHITE);
+		panel_Superior.setBounds(10, 11, 901, 51);
+		panelEstanteria.add(panel_Superior);
+		panel_Superior.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JButton btnSuperior = new JButton("SUPERIOR");
+		btnSuperior.setBackground(Color.WHITE);
+		panel_Superior.add(btnSuperior);
+		
+		JPanel panel_Inferior = new JPanel();
+		panel_Inferior.setBackground(Color.WHITE);
+		panel_Inferior.setBounds(10, 415, 901, 51);
+		panelEstanteria.add(panel_Inferior);
+		panel_Inferior.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JButton btnAbajo = new JButton("SUELO");
+		btnAbajo.setBackground(Color.WHITE);
+		panel_Inferior.add(btnAbajo);
+		
+		JPanel panel_Central = new JPanel();
+		panel_Central.setBackground(Color.WHITE);
+		panel_Central.setBounds(10, 73, 901, 331);
+		panelEstanteria.add(panel_Central);
+		
+		JLabel lblNombreEstanteria = new JLabel("Nombre");
+		lblNombreEstanteria.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNombreEstanteria.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNombreEstanteria.setBounds(10, 0, 969, 32);
+		panelContenido.add(lblNombreEstanteria);
 		
 		btnPlantaDos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

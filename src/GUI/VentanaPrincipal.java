@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.border.LineBorder;
 
+import baseDeDatos.ConexionBD;
+
 public class VentanaPrincipal extends JFrame {
 
 	/**
@@ -22,10 +24,12 @@ public class VentanaPrincipal extends JFrame {
 	JButton btnPlantaUno;
 	JButton btnPlantaDos;
 	JPanel panelContenido;
-	PanelPlantaUno panelPlantaUno = new PanelPlantaUno(this);
-	PanelPlantaDos panelPlantaDos = new PanelPlantaDos();
+	PanelPlantaUno panelPlantaUno;
+	PanelPlantaDos panelPlantaDos;
 	
-	public VentanaPrincipal() {
+	public VentanaPrincipal(ConexionBD bd) {
+		PanelPlantaUno panelPlantaUno = new PanelPlantaUno(bd, this);
+		PanelPlantaDos panelPlantaDos = new PanelPlantaDos();
 		
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 1136, 727);
