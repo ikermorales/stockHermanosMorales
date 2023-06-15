@@ -452,10 +452,11 @@ public class PanelComponente extends JPanel {
 					}
 					textField_codigoLocalizacion.setText(cod);
 					spinnerCantidadActual.setValue(componentes.get(list.getSelectedIndex()).getCantidadActual());
-
+					spinnerPrecio.setValue(componentes.get(list.getSelectedIndex()).getPrecio());
 					spinnerMax.setValue(componentes.get(list.getSelectedIndex()).getCanitdadAvisoMax());
 					spinnerMin.setValue(componentes.get(list.getSelectedIndex()).getCantidadAvisoMin());
-
+					
+					
 					spinnerColores(spinnerCantidadActual,spinnerMax,spinnerMin);
 
 					panel_BotoneraCantidad.repaint();
