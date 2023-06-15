@@ -97,9 +97,11 @@ public class ConexionBD {
 			int rowsUpdated = statement.executeUpdate();
 
 			if (rowsUpdated > 0 && componente.getCantidadActual() + cantidad > componente.getCanitdadAvisoMax()) {
-				JOptionPane.showMessageDialog(null, "Se han añadido más unidades que la cantidad máxima de " + componente.getNombre());
+				JOptionPane.showMessageDialog(null, "AVISO: Se han añadido unidades que han dejado " + componente.getNombre() + " por encima de la cantidad establecida.");
 			}
 		}
+		
+		JOptionPane.showMessageDialog(null, "CONFIRMACION: Añadidas " + cantidad + " unidades de " + componente.getNombre() + ".");
 
 		cerrar();
 	}
@@ -129,17 +131,20 @@ public class ConexionBD {
 			if (rowsUpdated > 0) {
 				componente.setCantidadActual(componente.getCantidadActual() - cantidad); // Actualiza la cantidad actual del objeto en memoria
 				if(componente.getCantidadActual() <= componente.getCantidadAvisoMin()) {
-					JOptionPane.showMessageDialog(null, "Se han quitado más unidades que la cantidad mínima de " + componente.getNombre());
+					JOptionPane.showMessageDialog(null, "AVISO: Se han reitrado unidades que han dejado " + componente.getNombre() + " por debajo de la cantidad establecida.");
 				}
 
 				if(componente.getCantidadActual() == 0) {
-					int dialogResult = JOptionPane.showConfirmDialog(null, "Has retirado todas las unidades de " + componente.getNombre() + ", ¿quieres eliminar el registro?", "Alerta", JOptionPane.YES_NO_OPTION);
+					int dialogResult = JOptionPane.showConfirmDialog(null, "Has retirado todas las unidades de " + componente.getNombre() + ", ¿Quieres eliminar el registro?", "Alerta", JOptionPane.YES_NO_OPTION);
 					if(dialogResult == JOptionPane.YES_OPTION){
 						eliminarComponente(componente, false);
+						return;
 					}
 				}
 			}
 		}
+		
+		JOptionPane.showMessageDialog(null, "CONFIRMACION: Retiradas " + cantidad + " unidades de " + componente.getNombre() + ".");
 
 		cerrar();
 	}
@@ -211,6 +216,35 @@ public class ConexionBD {
 
 	    cerrar();
 	}
+	
+	
+	public void insertarComponente(Componente componente) throws SQLException {
+		conectar();
 
+		String sql = "INSERT INTO Stock (ID, nombre, cantidadActual, cantidadAvisoMax, cantidadAvisoMin, precio, estanteria, piso, balda, lado, planta) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, componente.getId());
+            statement.setString(2, componente.getNombre());
+            statement.setInt(3, componente.getCantidadActual());
+            statement.setInt(4, componente.getCanitdadAvisoMax());
+            statement.setInt(5, componente.getCantidadAvisoMin());
+            statement.setFloat(6, componente.getPrecio());
+            statement.setString(7, componente.getEstanteria());
+            statement.setInt(8, componente.getPiso());
+            statement.setString(9, componente.getBalda());
+            statement.setString(10, componente.getLado());
+            statement.setInt(11, componente.getPlanta());
+
+            statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Registro " + componente.getId() + " insertado correctamente en la base de datos.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        cerrar();
+    }
+	
 
 }

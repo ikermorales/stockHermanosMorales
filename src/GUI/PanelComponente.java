@@ -42,6 +42,7 @@ public class PanelComponente extends JPanel {
 	public JList list;
 	public JSpinner spinnerAnadirEliminarCantidad;
 	public JButton btnEditarInformacion;
+	private JScrollPane scrollPane;
 
 
 	public PanelComponente(VentanaPrincipal vp, ConexionBD bd, int piso, String balda, String nombreEstanteria, String lado, int planta){
@@ -312,6 +313,22 @@ public class PanelComponente extends JPanel {
 
 		JButton btnInsertar = new JButton("Insertar nuevo");
 		btnInsertar.setForeground(Color.WHITE);
+		btnInsertar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				scrollPane.setEnabled(false);
+				list.setEnabled(false);
+				InsertarInternalFrame iif = new InsertarInternalFrame(vp, PanelComponente.this, bd, piso, balda, nombreEstanteria, lado, planta);
+				panel_BotoneraCantidades.add(iif);
+				panel_BotoneraCantidades.setComponentZOrder(iif, 0);
+				btnInsertar.setVisible(false);
+
+				PanelComponente.this.repaint();
+				
+			}
+		});
 		btnInsertar.setEnabled(true);
 		btnInsertar.setBackground(new Color(55, 62, 89));
 		btnInsertar.setBounds(647, 11, 203, 23);
@@ -399,7 +416,7 @@ public class PanelComponente extends JPanel {
 		btnEditarInformacion.setBounds(647, 45, 203, 23);
 		panel_BotoneraCantidades.add(btnEditarInformacion);
 
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Componentes: ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		scrollPane.setBounds(10, 63, 969, 252);
 		add(scrollPane);
@@ -443,6 +460,7 @@ public class PanelComponente extends JPanel {
 					btnEditarInformacion.setEnabled(true);
 					btnEliminarRegistro.setEnabled(true);
 					spinnerAnadirEliminarCantidad.setEnabled(true);
+					btnConfirmarCambios.setVisible(false);
 
 					textFieldComponente.setText(componentes.get(list.getSelectedIndex()).getNombre());
 					textFieldID.setText(componentes.get(list.getSelectedIndex()).getId());

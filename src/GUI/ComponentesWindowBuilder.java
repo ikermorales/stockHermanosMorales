@@ -34,8 +34,11 @@ public class ComponentesWindowBuilder {
 	private JTextField textFieldComponente;
 	private JTextField textFieldID;
 	private JTextField textField_codigoLocalizacion;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textFieldEstanteria;
+	private JTextField textField_Lado;
+	private JTextField textField_Nombre;
+	private JTextField textField_ID;
+	private JTextField textField_Balda;
 
 
 
@@ -143,44 +146,111 @@ public class ComponentesWindowBuilder {
 		internalFrame.requestFocusInWindow();
 
 		
-		JLabel lblPlanta = new JLabel("Planta:");
-		lblPlanta.setBounds(22, 20, 46, 14);
-		internalFrame.getContentPane().add(lblPlanta);
+		JLabel lbl_Planta = new JLabel("Planta:");
+		lbl_Planta.setBounds(91, 14, 46, 14);
+		internalFrame.getContentPane().add(lbl_Planta);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setEnabled(false);
-		spinner.setBounds(87, 17, 66, 21);
-		internalFrame.getContentPane().add(spinner);
+		JSpinner spinnerPlanta = new JSpinner();
+		spinnerPlanta.setEnabled(false);
+		spinnerPlanta.setBounds(156, 11, 66, 21);
+		internalFrame.getContentPane().add(spinnerPlanta);
 		
-		JLabel lblEstantera = new JLabel("Estantería:");
-		lblEstantera.setBounds(22, 74, 73, 14);
-		internalFrame.getContentPane().add(lblEstantera);
+		JLabel lbl_Estantera = new JLabel("Estantería:");
+		lbl_Estantera.setBounds(91, 58, 73, 14);
+		internalFrame.getContentPane().add(lbl_Estantera);
 		
-		textField = new JTextField();
-		textField.setEnabled(false);
-		textField.setBounds(87, 67, 137, 20);
-		internalFrame.getContentPane().add(textField);
-		textField.setColumns(10);
+		textFieldEstanteria = new JTextField();
+		textFieldEstanteria.setEditable(false);
+		textFieldEstanteria.setBounds(156, 55, 137, 20);
+		internalFrame.getContentPane().add(textFieldEstanteria);
+		textFieldEstanteria.setColumns(10);
 		
-		JLabel lblPiso = new JLabel("Piso:");
-		lblPiso.setBounds(22, 99, 73, 14);
-		internalFrame.getContentPane().add(lblPiso);
+		JLabel lbl_Piso = new JLabel("Piso:");
+		lbl_Piso.setBounds(91, 103, 73, 14);
+		internalFrame.getContentPane().add(lbl_Piso);
 		
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setEnabled(false);
-		spinner_1.setBounds(87, 96, 66, 21);
-		internalFrame.getContentPane().add(spinner_1);
+		JSpinner spinner_Piso = new JSpinner();
+		spinner_Piso.setEnabled(false);
+		spinner_Piso.setBounds(156, 100, 66, 21);
+		internalFrame.getContentPane().add(spinner_Piso);
 		
-		JLabel lblBalda = new JLabel("Balda:");
-		lblBalda.setBounds(22, 124, 73, 14);
-		internalFrame.getContentPane().add(lblBalda);
+		JLabel lbl_Lado = new JLabel("Lado:");
+		lbl_Lado.setBounds(91, 146, 73, 14);
+		internalFrame.getContentPane().add(lbl_Lado);
 		
-		textField_1 = new JTextField();
-		textField_1.setEnabled(false);
-		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setColumns(10);
-		textField_1.setBounds(87, 149, 66, 20);
-		internalFrame.getContentPane().add(textField_1);
+		textField_Lado = new JTextField();
+		textField_Lado.setEditable(false);
+		textField_Lado.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_Lado.setColumns(10);
+		textField_Lado.setBounds(156, 143, 66, 20);
+		internalFrame.getContentPane().add(textField_Lado);
+		
+		JLabel lblCantidadActual = new JLabel("Cantidad actual:");
+		lblCantidadActual.setBounds(672, 104, 103, 14);
+		internalFrame.getContentPane().add(lblCantidadActual);
+		
+		JLabel lbl_Precio = new JLabel("Precio:");
+		lbl_Precio.setBounds(355, 146, 73, 14);
+		internalFrame.getContentPane().add(lbl_Precio);
+		
+		JSpinner spinner_Precio = new JSpinner();
+		spinner_Precio.setBounds(450, 142, 66, 21);
+		internalFrame.getContentPane().add(spinner_Precio);
+		
+		textField_Nombre = new JTextField();
+		textField_Nombre.setColumns(10);
+		textField_Nombre.setBounds(450, 101, 137, 20);
+		internalFrame.getContentPane().add(textField_Nombre);
+		
+		JLabel lbl_Nombre = new JLabel("Nombre:");
+		lbl_Nombre.setBounds(355, 104, 73, 14);
+		internalFrame.getContentPane().add(lbl_Nombre);
+		
+		JLabel lbl_ID = new JLabel("S/N:");
+		lbl_ID.setBounds(355, 58, 103, 14);
+		internalFrame.getContentPane().add(lbl_ID);
+		
+		textField_ID = new JTextField();
+		textField_ID.setColumns(10);
+		textField_ID.setBounds(450, 55, 137, 20);
+		internalFrame.getContentPane().add(textField_ID);
+		
+		JSpinner spinner_cantActual = new JSpinner();
+		spinner_cantActual.setBounds(767, 100, 66, 21);
+		internalFrame.getContentPane().add(spinner_cantActual);
+		
+		JSpinner spinner_cantMax = new JSpinner();
+		spinner_cantMax.setBounds(767, 11, 66, 21);
+		internalFrame.getContentPane().add(spinner_cantMax);
+		
+		JLabel lblCantidadMaxima = new JLabel("Cantidad MAX:");
+		lblCantidadMaxima.setBounds(672, 15, 103, 14);
+		internalFrame.getContentPane().add(lblCantidadMaxima);
+		
+		JLabel lblCantidadMinima = new JLabel("Cantidad MIN:");
+		lblCantidadMinima.setBounds(672, 59, 103, 14);
+		internalFrame.getContentPane().add(lblCantidadMinima);
+		
+		JSpinner spinner_cantMin = new JSpinner();
+		spinner_cantMin.setBounds(767, 55, 66, 21);
+		internalFrame.getContentPane().add(spinner_cantMin);
+		
+		JButton btnNewButton = new JButton("Insertar");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(46, 139, 87));
+		btnNewButton.setBounds(672, 143, 161, 21);
+		internalFrame.getContentPane().add(btnNewButton);
+		
+		JLabel lbl_Balda = new JLabel("Balda:");
+		lbl_Balda.setBounds(355, 14, 73, 14);
+		internalFrame.getContentPane().add(lbl_Balda);
+		
+		textField_Balda = new JTextField();
+		textField_Balda.setEditable(false);
+		textField_Balda.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_Balda.setColumns(10);
+		textField_Balda.setBounds(450, 11, 66, 20);
+		internalFrame.getContentPane().add(textField_Balda);
 		
 		JLabel lblComponente = new JLabel("Componente:");
 		lblComponente.setFont(new Font("Tahoma", Font.PLAIN, 11));
