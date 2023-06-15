@@ -10,8 +10,10 @@ import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -20,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -36,9 +39,12 @@ public class PanelComponente extends JPanel {
 	private JTextField textFieldID;
 	private JTextField textField_codigoLocalizacion;
 	private ArrayList<Componente> componentes = new ArrayList();
+	public JList list;
+	public JSpinner spinnerAnadirEliminarCantidad;
+	public JButton btnEditarInformacion;
 
 
-	public PanelComponente(ConexionBD bd, int piso, String balda, String nombreEstanteria, String lado, int planta){
+	public PanelComponente(VentanaPrincipal vp, ConexionBD bd, int piso, String balda, String nombreEstanteria, String lado, int planta){
 
 		setBounds(121, 134, 989, 543);
 		setBorder(null);
@@ -90,10 +96,11 @@ public class PanelComponente extends JPanel {
 		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblPrecio.setBounds(10, 111, 80, 23);
 		panel_BotoneraCantidades.add(lblPrecio);
-
+		
 		JSpinner spinnerPrecio = new JSpinner();
 		spinnerPrecio.setEnabled(false);
-		spinnerPrecio.setModel(new SpinnerNumberModel(Float.valueOf(0), Float.valueOf(0), Float.valueOf(999999), Float.valueOf(0)));
+		SpinnerNumberModel spinnerModel = new SpinnerNumberModel(Float.valueOf(0), Float.valueOf(0), Float.valueOf(999999), Float.valueOf((float) 0.1));
+		spinnerPrecio.setModel(spinnerModel);
 		spinnerPrecio.setBounds(100, 111, 71, 20);
 		panel_BotoneraCantidades.add(spinnerPrecio);
 
@@ -136,21 +143,23 @@ public class PanelComponente extends JPanel {
 		btnEliminarRegistro.setForeground(Color.WHITE);
 		btnEliminarRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				try {
+
+					bd.eliminarComponente(componentes.get(list.getSelectedIndex()), true);
+					PanelComponente panelNuevo = new PanelComponente(vp, bd, piso, balda, nombreEstanteria, lado, planta);
+					vp.setPanelContenido(panelNuevo);
+					panelNuevo.list.setSelectedIndex(PanelComponente.this.list.getSelectedIndex());
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Error con la base de datos al eliminar el componente.");
+					e1.printStackTrace();
+				}
+
 			}
 		});
 		btnEliminarRegistro.setBounds(860, 11, 99, 23);
 		panel_BotoneraCantidades.add(btnEliminarRegistro);
-
-		JButton btnEditarInformacin = new JButton("Editar");
-		btnEditarInformacin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnEditarInformacin.setForeground(Color.WHITE);
-		btnEditarInformacin.setEnabled(false);
-		btnEditarInformacin.setBackground(new Color(55, 62, 89));
-		btnEditarInformacin.setBounds(647, 45, 203, 23);
-		panel_BotoneraCantidades.add(btnEditarInformacin);
+		
 
 		textFieldID = new JTextField();
 		textFieldID.setEnabled(false);
@@ -171,6 +180,24 @@ public class PanelComponente extends JPanel {
 		panel_BotoneraCantidad.setLayout(null);
 
 		JButton btnEliminar = new JButton("Eliminar -1");
+		btnEliminar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				try {
+
+					bd.eliminarCantidadConcreta(1, componentes.get(list.getSelectedIndex()));
+					PanelComponente panelNuevo = new PanelComponente(vp, bd, piso, balda, nombreEstanteria, lado, planta);
+					vp.setPanelContenido(panelNuevo);
+					panelNuevo.list.setSelectedIndex(PanelComponente.this.list.getSelectedIndex());
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Error con la base de datos al retirar una unidad.");
+					e1.printStackTrace();
+				}
+
+			}
+		});
 		btnEliminar.setBounds(10, 11, 111, 62);
 		panel_BotoneraCantidad.add(btnEliminar);
 		btnEliminar.setEnabled(false);
@@ -178,13 +205,34 @@ public class PanelComponente extends JPanel {
 		btnEliminar.setBackground(new Color(55, 62, 89));
 
 		JButton btnEliminarCantidad = new JButton("Eliminar cantidad >>");
+		btnEliminarCantidad.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+
+				int cantidad = 0;
+
+				try {
+					cantidad = (int) spinnerAnadirEliminarCantidad.getValue();
+					bd.eliminarCantidadConcreta(cantidad, componentes.get(list.getSelectedIndex()));
+					PanelComponente panelNuevo = new PanelComponente(vp, bd, piso, balda, nombreEstanteria, lado, planta);
+					vp.setPanelContenido(panelNuevo);
+					panelNuevo.list.setSelectedIndex(PanelComponente.this.list.getSelectedIndex());
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Error con la base de datos al retirar " + cantidad + " unidades.");
+					e1.printStackTrace();
+				}
+
+			}
+		});
 		btnEliminarCantidad.setBounds(131, 11, 161, 62);
 		panel_BotoneraCantidad.add(btnEliminarCantidad);
 		btnEliminarCantidad.setEnabled(false);
 		btnEliminarCantidad.setForeground(Color.WHITE);
 		btnEliminarCantidad.setBackground(new Color(55, 62, 89));
 
-		JSpinner spinnerAnadirEliminarCantidad = new JSpinner();
+		spinnerAnadirEliminarCantidad = new JSpinner();
 		spinnerAnadirEliminarCantidad.setBounds(302, 11, 71, 62);
 		panel_BotoneraCantidad.add(spinnerAnadirEliminarCantidad);
 		spinnerAnadirEliminarCantidad.setEnabled(false);
@@ -193,6 +241,26 @@ public class PanelComponente extends JPanel {
 		spinnerAnadirEliminarCantidad.setBackground(new Color(55, 62, 89));
 
 		JButton btnAnadirCantidad = new JButton("<< Añadir cantidad");
+		btnAnadirCantidad.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				int cantidad = 0;
+
+				try {
+					cantidad = (int) spinnerAnadirEliminarCantidad.getValue();
+					bd.anyadirCantidadConcreta(cantidad , componentes.get(list.getSelectedIndex()));
+					PanelComponente panelNuevo = new PanelComponente(vp, bd, piso, balda, nombreEstanteria, lado, planta);
+					vp.setPanelContenido(panelNuevo);
+					panelNuevo.list.setSelectedIndex(PanelComponente.this.list.getSelectedIndex());
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Error con la base de datos al añadir " + cantidad + " unidades." );
+					e1.printStackTrace();
+				}
+
+			}
+		});
 		btnAnadirCantidad.setBounds(378, 11, 161, 62);
 		panel_BotoneraCantidad.add(btnAnadirCantidad);
 		btnAnadirCantidad.setEnabled(false);
@@ -200,18 +268,27 @@ public class PanelComponente extends JPanel {
 		btnAnadirCantidad.setBackground(new Color(55, 62, 89));
 
 		JButton btnAnadir = new JButton("Añadir +1");
+		btnAnadir.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					bd.anyadirCantidadConcreta(1, componentes.get(list.getSelectedIndex()));
+					PanelComponente panelNuevo = new PanelComponente(vp, bd, piso, balda, nombreEstanteria, lado, planta);
+					vp.setPanelContenido(panelNuevo);
+					panelNuevo.list.setSelectedIndex(PanelComponente.this.list.getSelectedIndex());
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Error con la base de datos al añadir una unidad.");
+					e1.printStackTrace();
+				}
+
+			}
+		});
 		btnAnadir.setBounds(543, 11, 111, 62);
 		panel_BotoneraCantidad.add(btnAnadir);
 		btnAnadir.setEnabled(false);
 		btnAnadir.setForeground(Color.WHITE);
 		btnAnadir.setBackground(new Color(55, 62, 89));
-
-		JButton btnConfirmarCambios = new JButton("Confirmar");
-		btnConfirmarCambios.setForeground(Color.WHITE);
-		btnConfirmarCambios.setVisible(false);
-		btnConfirmarCambios.setBackground(new Color(46, 139, 87));
-		btnConfirmarCambios.setBounds(860, 45, 99, 23);
-		panel_BotoneraCantidades.add(btnConfirmarCambios);
 
 		JPanel panel_codigoLocalizacion = new JPanel();
 		panel_codigoLocalizacion.setBackground(new Color(255, 255, 255));
@@ -239,76 +316,190 @@ public class PanelComponente extends JPanel {
 		btnInsertar.setBackground(new Color(55, 62, 89));
 		btnInsertar.setBounds(647, 11, 203, 23);
 		panel_BotoneraCantidades.add(btnInsertar);
+		
+		JButton btnConfirmarCambios = new JButton("Confirmar");
+		btnConfirmarCambios.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				try {
+					
+					spinnerCantidadActual.setEnabled(false);
+					spinnerMax.setEnabled(false);
+					spinnerMin.setEnabled(false);
+					spinnerPrecio.setEnabled(false);
+					textFieldComponente.setEnabled(false);
+					textFieldComponente.setEditable(false);
+					btnConfirmarCambios.setVisible(false);
+					
+					btnAnadir.setEnabled(true);
+					btnEliminar.setEnabled(true);
+					btnAnadirCantidad.setEnabled(true);
+					btnEliminarCantidad.setEnabled(true);
+					btnEliminarRegistro.setEnabled(true);
+					spinnerAnadirEliminarCantidad.setEnabled(true);
+					btnInsertar.setEnabled(true);
+					btnEditarInformacion.setEnabled(true);
+					
+					Componente componente = componentes.get(list.getSelectedIndex());
+					componente.setNombre(textFieldComponente.getText());
+					componente.setCanitdadAvisoMax((int) spinnerMax.getValue());
+					componente.setCantidadAvisoMin((int) spinnerMin.getValue());
+					componente.setCantidadActual((int) spinnerCantidadActual.getValue());
+					componente.setPrecio((float) spinnerPrecio.getValue());
+					
+					bd.actualizarComponente(componente);
+					
+					PanelComponente panelNuevo = new PanelComponente(vp, bd, piso, balda, nombreEstanteria, lado, planta);
+					vp.setPanelContenido(panelNuevo);
+					panelNuevo.list.setSelectedIndex(PanelComponente.this.list.getSelectedIndex());
+					
+				} catch (SQLException e1) {
+					JOptionPane.showConfirmDialog(null, "Error con la base de datos al actualizar el componente.");
+					e1.printStackTrace();
+				}	
+			}
+		});
+		btnConfirmarCambios.setForeground(Color.WHITE);
+		btnConfirmarCambios.setVisible(false);
+		btnConfirmarCambios.setBackground(new Color(46, 139, 87));
+		btnConfirmarCambios.setBounds(860, 45, 99, 23);
+		panel_BotoneraCantidades.add(btnConfirmarCambios);
+
+		btnEditarInformacion = new JButton("Editar");
+		btnEditarInformacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				spinnerCantidadActual.setEnabled(true);
+				spinnerMax.setEnabled(true);
+				spinnerMin.setEnabled(true);
+				spinnerPrecio.setEnabled(true);
+				textFieldComponente.setEnabled(true);
+				textFieldComponente.setEditable(true);
+				btnConfirmarCambios.setVisible(true);
+				
+				btnAnadir.setEnabled(false);
+				btnEliminar.setEnabled(false);
+				btnAnadirCantidad.setEnabled(false);
+				btnEliminarCantidad.setEnabled(false);
+				btnEliminarRegistro.setEnabled(false);
+				spinnerAnadirEliminarCantidad.setEnabled(false);
+				btnInsertar.setEnabled(false);
+				btnEditarInformacion.setEnabled(false);
+				
+				PanelComponente.this.repaint();
+			
+
+			}
+		});
+		btnEditarInformacion.setForeground(Color.WHITE);
+		btnEditarInformacion.setEnabled(false);
+		btnEditarInformacion.setBackground(new Color(55, 62, 89));
+		btnEditarInformacion.setBounds(647, 45, 203, 23);
+		panel_BotoneraCantidades.add(btnEditarInformacion);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Componentes: ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		scrollPane.setBounds(10, 63, 969, 252);
 		add(scrollPane);
 
-		JList list = new JList();
+		list = new JList();
 		list.setForeground(Color.WHITE);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setBackground(new Color(55, 62, 89));
-		
-		
+
+
 		try {
-		    componentes = bd.obtenerStockCompleto(nombreEstanteria, piso, balda, lado);
+			componentes = bd.obtenerStockFiltrado(nombreEstanteria, piso, balda, lado);
 		} catch (SQLException e1) {
-		    e1.printStackTrace();
+			e1.printStackTrace();
 		}
 
 		String[] componentesArray = new String[componentes.size()];
 		for (int i = 0; i < componentes.size(); i++) {
-		    componentesArray[i] = componentes.get(i).getNombre();
+			componentesArray[i] = componentes.get(i).getNombre();
 		}
 
 		list.setModel(new AbstractListModel<String>() {
-		    String[] values = componentesArray;
-		    public int getSize() {
-		        return values.length;
-		    }
-		    public String getElementAt(int index) {
-		        return values[index];
-		    }
+			String[] values = componentesArray;
+			public int getSize() {
+				return values.length;
+			}
+			public String getElementAt(int index) {
+				return values[index];
+			}
 		});
-		
-		
+
+
 		list.addListSelectionListener(new ListSelectionListener() {
-		    public void valueChanged(ListSelectionEvent e) {
-		        if (!e.getValueIsAdjusting()) { //This line prevents double events
-		           
-		        	btnAnadir.setEnabled(true);
-		        	btnAnadirCantidad.setEnabled(true);
-		        	btnEliminar.setEnabled(true);
-		        	btnEliminarCantidad.setEnabled(true);
-		        	btnEditarInformacin.setEnabled(true);
-		        	btnEliminarRegistro.setEnabled(true);
-		        	spinnerAnadirEliminarCantidad.setEnabled(true);
-		        	
-		        	textFieldComponente.setText(componentes.get(list.getSelectedIndex()).getNombre());
-		        	textFieldID.setText(componentes.get(list.getSelectedIndex()).getId());
-		        	String cod = cod = planta + "_" + nombreEstanteria + "_" + piso + balda;
-		        	if(lado != null && !lado.isBlank()) {
-		        		cod += "_" + lado;
-		        	}
-		        	textField_codigoLocalizacion.setText(cod);
-		        	spinnerCantidadActual.setValue(componentes.get(list.getSelectedIndex()).getCantidadActual());
-		        	spinnerMax.setValue(componentes.get(list.getSelectedIndex()).getCanitdadAvisoMax());
-		        	spinnerMin.setValue(componentes.get(list.getSelectedIndex()).getCantidadAvisoMin());
-		        	
-		        	panel_BotoneraCantidad.repaint();
-		        	panel_BotoneraCantidades.repaint();
-		        	
-		        	String selectedComponent = (String) list.getSelectedValue();
-		            System.out.println(selectedComponent);
-		        	
-		        }
-		    }
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting()) { //This line prevents double events
+
+					btnAnadir.setEnabled(true);
+					btnAnadirCantidad.setEnabled(true);
+					btnEliminar.setEnabled(true);
+					btnEliminarCantidad.setEnabled(true);
+					btnEditarInformacion.setEnabled(true);
+					btnEliminarRegistro.setEnabled(true);
+					spinnerAnadirEliminarCantidad.setEnabled(true);
+
+					textFieldComponente.setText(componentes.get(list.getSelectedIndex()).getNombre());
+					textFieldID.setText(componentes.get(list.getSelectedIndex()).getId());
+					String cod = cod = planta + "_" + nombreEstanteria + "_" + piso + balda;
+					if(lado != null && !lado.isBlank()) {
+						cod += "_" + lado;
+					}
+					textField_codigoLocalizacion.setText(cod);
+					spinnerCantidadActual.setValue(componentes.get(list.getSelectedIndex()).getCantidadActual());
+
+					spinnerMax.setValue(componentes.get(list.getSelectedIndex()).getCanitdadAvisoMax());
+					spinnerMin.setValue(componentes.get(list.getSelectedIndex()).getCantidadAvisoMin());
+
+					spinnerColores(spinnerCantidadActual,spinnerMax,spinnerMin);
+
+					panel_BotoneraCantidad.repaint();
+					panel_BotoneraCantidades.repaint();
+
+					String selectedComponent = (String) list.getSelectedValue();
+					System.out.println(selectedComponent);
+
+				}
+			}
 		});
-		
-		
+
+
 		list.setFont(new Font("Microsoft JhengHei UI", Font.PLAIN, 13));
 		scrollPane.setViewportView(list);
 
 	}
+
+
+
+	public void spinnerColores(JSpinner spinnerCantidadActual, JSpinner spinnerMax, JSpinner spinnerMin) {
+		if((int) spinnerCantidadActual.getValue() >= (int) spinnerMax.getValue()) {
+			JComponent comp = spinnerCantidadActual.getEditor();
+			if(comp instanceof JSpinner.DefaultEditor) {
+				JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) comp;
+				editor.getTextField().setBackground(Color.blue);
+				editor.getTextField().setForeground(Color.white);
+			}
+		} else if((int) spinnerCantidadActual.getValue() <= (int) spinnerMin.getValue()) {
+			JComponent comp = spinnerCantidadActual.getEditor();
+			if(comp instanceof JSpinner.DefaultEditor) {
+				JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) comp;
+				editor.getTextField().setBackground(Color.red);
+				editor.getTextField().setForeground(Color.white);
+			}
+		} else {
+			JComponent comp = spinnerCantidadActual.getEditor();
+			if(comp instanceof JSpinner.DefaultEditor) {
+				JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) comp;
+	            editor.getTextField().setBackground(UIManager.getColor("TextField.background"));
+	            editor.getTextField().setForeground(UIManager.getColor("TextField.foreground"));
+			}
+		}
+	}
+	
+	
 }

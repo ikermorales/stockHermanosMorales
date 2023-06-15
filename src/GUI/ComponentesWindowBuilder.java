@@ -8,6 +8,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Color;
@@ -25,6 +26,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JInternalFrame;
 
 public class ComponentesWindowBuilder {
 
@@ -32,6 +34,8 @@ public class ComponentesWindowBuilder {
 	private JTextField textFieldComponente;
 	private JTextField textFieldID;
 	private JTextField textField_codigoLocalizacion;
+	private JTextField textField;
+	private JTextField textField_1;
 
 
 
@@ -116,6 +120,67 @@ public class ComponentesWindowBuilder {
 		panel_BotoneraCantidades.setBounds(10, 326, 969, 206);
 		panelContenido.add(panel_BotoneraCantidades);
 		panel_BotoneraCantidades.setLayout(null);
+		
+		JInternalFrame internalFrame = new JInternalFrame("New JInternalFrame");
+		try {
+			internalFrame.setSelected(true);
+		} catch (PropertyVetoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			internalFrame.setMaximum(true);
+		} catch (PropertyVetoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		internalFrame.setClosable(true);
+		internalFrame.setBounds(292, 11, 667, 184);
+		internalFrame.setVisible(true);
+		internalFrame.toFront();
+		panel_BotoneraCantidades.add(internalFrame);
+		internalFrame.getContentPane().setLayout(null);
+		internalFrame.requestFocusInWindow();
+
+		
+		JLabel lblPlanta = new JLabel("Planta:");
+		lblPlanta.setBounds(22, 23, 46, 14);
+		internalFrame.getContentPane().add(lblPlanta);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.setEnabled(false);
+		spinner.setBounds(141, 20, 66, 21);
+		internalFrame.getContentPane().add(spinner);
+		
+		JLabel lblEstantera = new JLabel("Estantería:");
+		lblEstantera.setBounds(22, 51, 73, 14);
+		internalFrame.getContentPane().add(lblEstantera);
+		
+		textField = new JTextField();
+		textField.setEnabled(false);
+		textField.setBounds(141, 48, 137, 20);
+		internalFrame.getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblPiso = new JLabel("Piso:");
+		lblPiso.setBounds(22, 79, 73, 14);
+		internalFrame.getContentPane().add(lblPiso);
+		
+		JSpinner spinner_1 = new JSpinner();
+		spinner_1.setEnabled(false);
+		spinner_1.setBounds(141, 76, 66, 21);
+		internalFrame.getContentPane().add(spinner_1);
+		
+		JLabel lblBalda = new JLabel("Balda:");
+		lblBalda.setBounds(22, 107, 73, 14);
+		internalFrame.getContentPane().add(lblBalda);
+		
+		textField_1 = new JTextField();
+		textField_1.setEnabled(false);
+		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_1.setColumns(10);
+		textField_1.setBounds(141, 104, 66, 20);
+		internalFrame.getContentPane().add(textField_1);
 		
 		JLabel lblComponente = new JLabel("Componente:");
 		lblComponente.setFont(new Font("Tahoma", Font.PLAIN, 11));

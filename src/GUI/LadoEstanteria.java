@@ -42,6 +42,14 @@ public class LadoEstanteria extends JPanel{
 
 		JButton btnSuperior = new JButton("SUPERIOR");
 		btnSuperior.setBackground(Color.WHITE);
+		btnSuperior.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				vp.setPanelContenido(new PanelComponente(vp, bd , 0, "S", nombreEstanteria, lado, planta));
+				
+			}
+		});
 		panel_Superior.add(btnSuperior);
 
 		JPanel panel_Inferior = new JPanel();
@@ -50,8 +58,16 @@ public class LadoEstanteria extends JPanel{
 		panelEstanteria.add(panel_Inferior);
 		panel_Inferior.setLayout(new GridLayout(1, 0, 0, 0));
 
-		JButton btnAbajo = new JButton("SUELO");
+		JButton btnAbajo = new JButton("INFERIOR");
 		btnAbajo.setBackground(Color.WHITE);
+		btnAbajo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				vp.setPanelContenido(new PanelComponente(vp, bd , 0, "I", nombreEstanteria, lado, planta));
+				
+			}
+		});
 		panel_Inferior.add(btnAbajo);
 
 		JLabel lblNombreEstanteria = new JLabel(nombreEstanteria);
@@ -80,7 +96,7 @@ public class LadoEstanteria extends JPanel{
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						vp.setPanelContenido(new PanelComponente(bd ,finalI, String.valueOf(finalLetra), nombreEstanteria, lado, planta));
+						vp.setPanelContenido(new PanelComponente(vp, bd ,finalI, String.valueOf(finalLetra), nombreEstanteria, lado, planta));
 						
 					}
 				});
