@@ -16,10 +16,16 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
 import java.awt.GridLayout;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
 
 public class PrimeraPlanta {
 
 	private JFrame frame;
+	private JTextField textFieldBuscar;
 	
 	
 	
@@ -297,6 +303,60 @@ public class PrimeraPlanta {
 		btnVarios1LateralArriba.setBackground(SystemColor.inactiveCaption);
 		btnVarios1LateralArriba.setBounds(688, 285, 118, 31);
 		panelContenido.add(btnVarios1LateralArriba);
+		
+		JPanel panel_funciones = new JPanel();
+		panel_funciones.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_funciones.setBackground(new Color(225, 234, 255));
+		panel_funciones.setBounds(266, 11, 844, 99);
+		panel.add(panel_funciones);
+		panel_funciones.setLayout(null);
+		
+		JRadioButton rdbtnNumeroDeSerie = new JRadioButton("Numero de serie");
+		rdbtnNumeroDeSerie.setBackground(new Color(225, 234, 255));
+		rdbtnNumeroDeSerie.setBounds(10, 65, 134, 23);
+		panel_funciones.add(rdbtnNumeroDeSerie);
+		
+		textFieldBuscar = new JTextField();
+		textFieldBuscar.setBounds(10, 11, 248, 27);
+		panel_funciones.add(textFieldBuscar);
+		textFieldBuscar.setColumns(10);
+		
+		JRadioButton rdbtnNombre = new JRadioButton("Nombre");
+		rdbtnNombre.setSelected(true);
+		rdbtnNombre.setBackground(new Color(225, 234, 255));
+		rdbtnNombre.setBounds(10, 45, 112, 23);
+		panel_funciones.add(rdbtnNombre);
+		
+		JButton btnNBuscar = new JButton("Buscar");
+		btnNBuscar.setBackground(SystemColor.inactiveCaption);
+		btnNBuscar.setBounds(268, 11, 94, 27);
+		panel_funciones.add(btnNBuscar);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(372, 11, 357, 77);
+		panel_funciones.add(scrollPane);
+		
+		JList listBusqueda = new JList();
+		listBusqueda.setForeground(new Color(0, 0, 0));
+		listBusqueda.setBackground(new Color(255, 255, 255));
+		scrollPane.setViewportView(listBusqueda);
+		
+		JButton btnNewButton = new JButton("Informe");
+		btnNewButton.setBackground(SystemColor.activeCaption);
+		btnNewButton.setBounds(750, 13, 84, 75);
+		panel_funciones.add(btnNewButton);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setOrientation(SwingConstants.VERTICAL);
+		separator_1.setBounds(739, 11, 1, 77);
+		panel_funciones.add(separator_1);
+		
+		JButton btnEncontrar = new JButton("Encontrar");
+		btnEncontrar.setForeground(new Color(255, 255, 255));
+		btnEncontrar.setBackground(new Color(0, 100, 0));
+		btnEncontrar.setBounds(268, 45, 94, 43);
+		panel_funciones.add(btnEncontrar);
+		
 		btnPlantaDos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
