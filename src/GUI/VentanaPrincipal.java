@@ -29,7 +29,7 @@ public class VentanaPrincipal extends JFrame {
 	
 	public VentanaPrincipal(ConexionBD bd) {
 		PanelPlantaUno panelPlantaUno = new PanelPlantaUno(bd, this);
-		PanelPlantaDos panelPlantaDos = new PanelPlantaDos();
+		PanelPlantaDos panelPlantaDos = new PanelPlantaDos(bd, this);
 		
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 1136, 727);

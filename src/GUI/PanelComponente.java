@@ -99,7 +99,7 @@ public class PanelComponente extends JPanel {
 		
 		JSpinner spinnerPrecio = new JSpinner();
 		spinnerPrecio.setEnabled(false);
-		SpinnerNumberModel spinnerModel = new SpinnerNumberModel(Float.valueOf(0), Float.valueOf(0), Float.valueOf(999999), Float.valueOf((float) 0.1));
+		SpinnerNumberModel spinnerModel = new SpinnerNumberModel(Float.valueOf(0), Float.valueOf(0), Float.valueOf(999999), Float.valueOf((float) 0.01));
 		spinnerPrecio.setModel(spinnerModel);
 		spinnerPrecio.setBounds(100, 111, 71, 20);
 		panel_BotoneraCantidades.add(spinnerPrecio);
