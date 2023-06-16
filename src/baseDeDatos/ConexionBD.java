@@ -1,7 +1,9 @@
 package baseDeDatos;
 
 import java.awt.Desktop;
+import java.awt.Font;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,10 +14,15 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -93,7 +100,7 @@ public class ConexionBD {
 		cerrar();
 		return componentes;
 	}
-	
+
 	public ArrayList<Componente> obtenerStockNombre(String nombre) throws SQLException {
 		conectar();
 
@@ -101,8 +108,8 @@ public class ConexionBD {
 
 		String sql = "SELECT * FROM Stock WHERE nombre LIKE ?";
 
-	    try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
-	        statement.setString(1, "%" + nombre + "%");
+		try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
+			statement.setString(1, "%" + nombre + "%");
 
 
 			System.out.println(statement);
@@ -129,7 +136,7 @@ public class ConexionBD {
 		cerrar();
 		return componentes;
 	}
-	
+
 	public ArrayList<Componente> obtenerStockID(String id) throws SQLException {
 		conectar();
 
@@ -137,8 +144,8 @@ public class ConexionBD {
 
 		String sql = "SELECT * FROM Stock WHERE ID LIKE ?";
 
-	    try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
-	        statement.setString(1, "%" + id + "%");
+		try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
+			statement.setString(1, "%" + id + "%");
 
 
 			System.out.println(statement);
@@ -330,9 +337,7 @@ public class ConexionBD {
 		cerrar();
 	}
 
-	
-	
-	public void generarYAbrirExcel(String tipoGeneracion, String piso, String balda) throws SQLException, IOException {
+	public void generarExcelCompleto() throws SQLException, IOException {
 	    conectar();
 
 	    String excelFilePath = "datos_estanteria.xlsx";
@@ -340,60 +345,86 @@ public class ConexionBD {
 	    try (Workbook workbook = new XSSFWorkbook();
 	         FileOutputStream fileOut = new FileOutputStream(excelFilePath)) {
 
-	        String sql = "SELECT * FROM Stock";
-	        if (tipoGeneracion.equals("planta")) {
-	            sql += " ORDER BY planta, estanteria";
-	        } else if (tipoGeneracion.equals("estanteria")) {
-	            sql += " ORDER BY estanteria, planta, piso, balda";
-	        } else if (tipoGeneracion.equals("seccion")) {
-	            sql += " WHERE piso = ? AND balda = ? ORDER BY estanteria";
-	        } else {
-	            sql += " ORDER BY estanteria";
-	        }
+	        String sql = "SELECT planta, estanteria, lado, piso, balda, id, nombre, cantidadActual, precio FROM Stock ORDER BY planta, estanteria, lado, piso, balda, id, nombre";
+	        try (Statement statement = connection.createStatement();
+	             ResultSet resultSet = statement.executeQuery(sql)) {
 
-	        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-	            if (tipoGeneracion.equals("seccion")) {
-	                statement.setString(1, piso);
-	                statement.setString(2, balda);
+	            Sheet sheet = workbook.createSheet("Datos");
+
+	            // Crear estilo para la cabecera
+	            CellStyle headerStyle = workbook.createCellStyle();
+	            headerStyle.setFillForegroundColor(IndexedColors.PALE_BLUE.getIndex());
+	            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	            org.apache.poi.ss.usermodel.Font headerFont = workbook.createFont();
+	            headerFont.setBold(true);
+	            headerStyle.setFont(headerFont);
+
+	            // Crear estilo para la última columna
+	            CellStyle lastColumnStyle = workbook.createCellStyle();
+	            lastColumnStyle.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.getIndex());
+	            lastColumnStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	            org.apache.poi.ss.usermodel.Font lastColumnFont = workbook.createFont();
+	            lastColumnFont.setBold(true);
+	            lastColumnStyle.setFont(lastColumnFont);
+
+	            // Crear encabezados de columna
+	            ResultSetMetaData metaData = resultSet.getMetaData();
+	            int columnCount = metaData.getColumnCount();
+	            Row headerRow = sheet.createRow(0);
+	            for (int i = 1; i <= columnCount; i++) {
+	                Cell cell = headerRow.createCell(i - 1);
+	                String columnName = metaData.getColumnName(i);
+	                cell.setCellValue(columnName);
+	                cell.setCellStyle(headerStyle);
+	                sheet.setColumnWidth(i - 1, 10 * 256); // Ajustar ancho de todas las columnas
 	            }
 
-	            try (ResultSet resultSet = statement.executeQuery()) {
-	                Sheet sheet = workbook.createSheet("Datos");
+	            // Añadir cabecera especial para la última columna
+	            Cell lastColumnHeaderCell = headerRow.createCell(columnCount);
+	            lastColumnHeaderCell.setCellValue("Valor total (€)");
+	            lastColumnHeaderCell.setCellStyle(lastColumnStyle);
 
-	                // Crear encabezados de columna
-	                ResultSetMetaData metaData = resultSet.getMetaData();
-	                int columnCount = metaData.getColumnCount();
-	                Row headerRow = sheet.createRow(0);
+	            // Llenar datos de las filas y calcular la suma total
+	            double sumaTotal = 0.0;
+	            int rowNum = 1;
+	            while (resultSet.next()) {
+	                Row row = sheet.createRow(rowNum++);
 	                for (int i = 1; i <= columnCount; i++) {
-	                    Cell cell = headerRow.createCell(i - 1);
-	                    cell.setCellValue(metaData.getColumnName(i));
+	                    Cell cell = row.createCell(i - 1);
+	                    String columnName = metaData.getColumnName(i);
+	                    String cellValue = resultSet.getString(columnName);
+
+	                    cell.setCellValue(cellValue);
 	                }
 
-	                // Llenar datos de las filas
-	                int rowNum = 1;
-	                while (resultSet.next()) {
-	                    Row row = sheet.createRow(rowNum++);
-	                    for (int i = 1; i <= columnCount; i++) {
-	                        Cell cell = row.createCell(i - 1);
-	                        cell.setCellValue(resultSet.getString(i));
-	                    }
-	                }
+	                // Crear nueva celda para el valor total
+	                Cell lastCell = row.createCell(columnCount);
+	                
+	                double cantidadActual = resultSet.getDouble("cantidadActual");
+	                double precio = resultSet.getDouble("precio");
+	                double valorTotal = cantidadActual * precio;
+	                sumaTotal += valorTotal; // Añadir valor total a la suma total
+	                String valorTotalString = String.format("%.2f €", valorTotal);
+
+	                lastCell.setCellValue(valorTotalString);
 	            }
+
+	            // Crear una nueva fila para la suma total
+	            Row totalRow = sheet.createRow(rowNum);
+	            Cell totalCell = totalRow.createCell(columnCount);
+	            totalCell.setCellValue("Total: " + String.format("%.2f €", sumaTotal));
+
+	            workbook.write(fileOut);
+	           JOptionPane.showMessageDialog(null, "El archivo Excel se generó correctamente.");
+
+	            // Abrir el archivo Excel
+	            File excelFile = new File(excelFilePath);
+	            Desktop.getDesktop().open(excelFile);
 	        }
-
-	        workbook.write(fileOut);
-	        System.out.println("El archivo Excel se generó correctamente.");
-
-	        // Abrir el archivo Excel
-	        File excelFile = new File(excelFilePath);
-	        Desktop.getDesktop().open(excelFile);
 	    }
 
 	    cerrar();
 	}
 
-
-
-
-
 }
+
